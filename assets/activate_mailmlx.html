@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;300;500;700&display=swap">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #1c2719;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .email-card {
+            width: 300px;
+            padding: 20px;
+            background-color: #202020;
+            /* border-left: 5px solid #4cb32b; */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            color: #fff;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: bolder;
+            margin-bottom: 10px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .card-paragraph {
+            font-size: 11px;
+            margin-bottom: 60px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .card-paragraph2 {
+            font-size: 11px;
+            margin-bottom: 25px;
+            margin-top: 20px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .card-footer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 9px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .button {
+            padding: 10px 30px;
+            background-color: #4cb32b;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .button:hover {
+            background-color: #2d880f;
+        }
+
+        .footer-icon {
+            margin-right: 5px;
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="email-card">
+        <div class="card-title">Alophy High Life - Account Activation</div>
+        <div class="card-paragraph">
+            <p style="margin: 0px; font-size: 11px; font-weight: bold; margin-bottom: 4px;">Hallo, {username}</p>
+            <p style="margin: 0px">
+                Thanks for registring on Alophy High Life Roleplay. To activate account click the Activate button and
+                then
+                you will redirected to Alophy Ucp Panel. The activation link will expire after 12 hours, register again
+                to resend activation link.
+            </p>
+        </div>
+        <div class=" card-footer">
+            <a href="{action_link}" class="button" style="color: white;">Activate</a>
+            <div style="margin-bottom: 10px;"></div>
+
+        </div>
+    </div>
+</body>
+
+</html>

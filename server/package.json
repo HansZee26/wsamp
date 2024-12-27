@@ -1,0 +1,27 @@
+{
+  "name": "sampwebjs",
+  "version": "3.0.0",
+  "description": "Samp Web Server By Mamank Nixxy A.K.A Coastline Founder",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "NixxyHorwitz",
+  "license": "ISC",
+  "dependencies": {
+    "@adiwajshing/baileys": "github:REZZ19GANZ/Baileys",
+    "@adiwajshing/keyed-db": "^0.2.4",
+    "@hapi/boom": "latest",
+    "awesome-phonenumber": "latest",
+    "axios": "^0.27.2",
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "node-schedule": "^2.1.1",
+    "nodemailer": "^6.9.8",
+    "pino": "^7.0.5",
+    "qrcode-terminal": "^0.12.0",
+    "samp-query": "^0.1.5"
+  }
+}

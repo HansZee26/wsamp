@@ -1,0 +1,35 @@
+.mdl.profile-photo img {
+    max-width: 14rem;
+    margin-top: 0.4rem;
+    margin-bottom: 0.5rem;
+}
+
+.csr-pointer {
+    cursor: pointer;
+}
+
+.square-img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.btn-width-100 {
+    width: 100% !important;
+}
+
+.characterstory textarea {
+    height: 120px;
+}
+
+.cs-detail-card {
+    background-color: #161717;
+}
+
+.img-char-view {
+    object-fit: cover;
+    object-position: top;
+    height: 100px;
+    width: 100px;
+    background-color: transparent;
+}
