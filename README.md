@@ -8,9 +8,11 @@ Feature :
 - Login Register
 - Forgot Password
 - dll
+  <br>
 Fitur sudah hampir lengkap sayangnya beberapa versi dari paket Nodejs sudah Deprecated
 Silahkan perbarui codingan anda terlebih dahulu sebelum melakukan produksi untuk server.
 Jangan Menghapus Autor dari pembuat Web ini.
-
-Pembuat : Nixxy 
+<br>
+Pembuat : Nixxy
+  <br> 
 Last Update : HansZee26
