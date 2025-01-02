@@ -10,7 +10,6 @@
   "author": "NixxyHorwitz",
   "license": "ISC",
   "dependencies": {
-    "@adiwajshing/baileys": "github:REZZ19GANZ/Baileys",
     "@adiwajshing/keyed-db": "^0.2.4",
     "@hapi/boom": "latest",
     "awesome-phonenumber": "latest",
@@ -22,6 +21,7 @@
     "nodemailer": "^6.9.8",
     "pino": "^7.0.5",
     "qrcode-terminal": "^0.12.0",
-    "samp-query": "^0.1.5"
+    "samp-query": "^0.1.5",
+    "whatsapp-web.js": "^1.26.0"
   }
 }

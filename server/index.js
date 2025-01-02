@@ -1,7 +1,9 @@
-const {default: makeWASocket, DisconnectReason, downloadContentFromMessage, useSingleFileAuthState, jidDecode, areJidsSameUser, makeInMemoryStore} = require('@adiwajshing/baileys');
-const {state} = useSingleFileAuthState('./session.json');
+// const {default: makeWASocket, DisconnectReason, downloadContentFromMessage, useSingleFileAuthState, jidDecode, areJidsSameUser, makeInMemoryStore} = require('@adiwajshing/baileys');
+const qrcode = require('qrcode-terminal')
+const { Client, LocalAuth } = require('whatsapp-web.js');
+// const {state} = useSingleFileAuthState('./session.json');
 const pino = require('pino');
-const store = makeInMemoryStore({logger: pino().child({level: 'silent', stream: 'store'})});
+// const store = makeInMemoryStore({logger: pino().child({level: 'silent', stream: 'store'})});
 
 const fs = require('fs');
 const query = require('samp-query');
@@ -37,50 +39,109 @@ function writeToErrorLog(error) {
 	});
 }
 
-const connectToWhatsApp = () => {
-	const client = makeWASocket({logger: pino({level: 'silent'}), printQRInTerminal: true, auth: state, browser: ['Samp Web Server', 'Dekstop', '3.0']});
-	store.bind(client.ev);
-	client.ev.on('connection.update', async update => {
-		const {connection, lastDisconnect} = update;
-		if (connection === 'close') {
-			lastDisconnect.error?.output?.statusCode !== DisconnectReason.loggedOut ? connectToWhatsApp() : '';
-		} else if (connection === 'open') {
-			console.log('Whatsapp client is Active!');
 
-			app.post('/api/send-whatsapp', async (req, res) => {
-				try {
-					const {number, message} = req.body;
+const client = new Client({
+    authStrategy: new LocalAuth(),
+    puppeteer: { headless: true },
+});
 
-					if (!number || !message) {
-						return res.status(400).json({
-							error: 'Number and message are required fields.',
-						});
-					}
+client.on('qr', (qr) => {
+    qrcode.generate(qr, { small: true });
+    console.log('QR code generated, scan using WhatsApp.');
+});
 
-					const formattedNumber = number.includes('@c.us') ? number : `${number}@c.us`;
-					await client.sendMessage(formattedNumber, {text: message});
-					await console.log(`[WhatsApp]: Sent to ${formattedNumber};`);
-					return res.status(200).json({
-						success: true,
-						message: 'Message sent successfully.',
-					});
-				} catch (error) {
-					console.error('Error:', error);
-					return res.status(500).json({
-						error: 'Internal server error.',
-					});
-				}
-			});
+client.on('ready', () => {
+    console.log('WhatsApp client is Active!');
 
-			await client.sendMessage(`6285819478911@c.us`, {text: `Whattsapp Client is online!`});
-			process.on(`exit`, async code => {
-				await client.sendMessage(`6285819478911@c.us`, {text: `Whattsapp Client is turned off!: ${code}`});
-			});
-		}
-	});
-};
+    // Endpoint to send messages
+    app.post('/api/send-whatsapp', async (req, res) => {
+        try {
+            const { number, message } = req.body;
 
-connectToWhatsApp();
+            if (!number || !message) {
+                return res.status(400).json({
+                    error: 'Number and message are required fields.',
+                });
+            }
+
+            const formattedNumber = number.includes('@c.us') ? number : `${number}@c.us`;
+            await client.sendMessage(formattedNumber, message);
+            console.log(`[WhatsApp]: Sent to ${formattedNumber};`);
+
+            return res.status(200).json({
+                success: true,
+                message: 'Message sent successfully.',
+            });
+        } catch (error) {
+            console.error('Error:', error);
+            return res.status(500).json({
+                error: 'Internal server error.',
+            });
+        }
+    });
+
+    // Notification message when client is online
+    client.sendMessage('6285819478911@c.us', 'WhatsApp Client is online!');
+});
+
+// Handle client disconnection
+client.on('disconnected', (reason) => {
+    console.log('WhatsApp client was disconnected:', reason);
+    client.initialize(); // Reinitialize on disconnection
+});
+
+// Graceful shutdown
+process.on('exit', async (code) => {
+    await client.sendMessage('6285819478911@c.us', `WhatsApp Client is turned off: ${code}`);
+});
+
+client.initialize();
+
+
+// const connectToWhatsApp = () => {
+// 	const client = makeWASocket({logger: pino({level: 'silent'}), printQRInTerminal: true, auth: state, browser: ['Samp Web Server', 'Dekstop', '3.0']});
+// 	store.bind(client.ev);
+// 	client.ev.on('connection.update', async update => {
+// 		const {connection, lastDisconnect} = update;
+// 		if (connection === 'close') {
+// 			lastDisconnect.error?.output?.statusCode !== DisconnectReason.loggedOut ? connectToWhatsApp() : '';
+// 		} else if (connection === 'open') {
+// 			console.log('Whatsapp client is Active!');
+
+// 			app.post('/api/send-whatsapp', async (req, res) => {
+// 				try {
+// 					const {number, message} = req.body;
+
+// 					if (!number || !message) {
+// 						return res.status(400).json({
+// 							error: 'Number and message are required fields.',
+// 						});
+// 					}
+
+// 					const formattedNumber = number.includes('@c.us') ? number : `${number}@c.us`;
+// 					await client.sendMessage(formattedNumber, {text: message});
+// 					await console.log(`[WhatsApp]: Sent to ${formattedNumber};`);
+// 					return res.status(200).json({
+// 						success: true,
+// 						message: 'Message sent successfully.',
+// 					});
+// 				} catch (error) {
+// 					console.error('Error:', error);
+// 					return res.status(500).json({
+// 						error: 'Internal server error.',
+// 					});
+// 				}
+// 			});
+
+// 			await client.sendMessage(`6285819478911@c.us`, {text: `Whattsapp Client is online!`});
+// 			process.on(`exit`, async code => {
+// 				await client.sendMessage(`6285819478911@c.us`, {text: `Whattsapp Client is turned off!: ${code}`});
+// 			});
+// 		}
+// 	});
+// };
+
+// connectToWhatsApp();
 
 const db = require('./mailer/maildb');
 const transporter = nodemailer.createTransport({
